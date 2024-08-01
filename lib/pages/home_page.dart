@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:to_do_app/data/database.dart';
 import 'package:to_do_app/util/dialog_box.dart';
+import 'package:to_do_app/util/task_pop_up.dart';
 import 'package:to_do_app/util/todo_tile.dart';
 
 class HomePage extends StatefulWidget {
@@ -56,6 +57,16 @@ class _HomePageState extends State<HomePage> {
   }
 
 
+  void showTask(String text){
+    showDialog(context: context, builder: (context)
+    {
+      return TaskPopUp(neededText: text);
+    }
+    );
+
+
+  }
+
   //create new task(is finally created in the saveNewTask Method, but this is reponsible for the bulk of it! )
   void createNewTask(){
     showDialog(
@@ -105,6 +116,8 @@ class _HomePageState extends State<HomePage> {
             taskCompleted: db.toDoList[index][1],
             onChanged: (value) => checkBoxChanged(value, index),
             deleteFunction: (context) => deleteTask(index),
+            popUp: () => showTask(db.toDoList[index][0])//TaskPopUp(neededText: db.toDoList[index][0])
+
           );
 
         },

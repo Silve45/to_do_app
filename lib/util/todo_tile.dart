@@ -8,6 +8,7 @@ class ToDoTile extends StatelessWidget {
   final bool taskCompleted;
   Function (bool?)? onChanged;
   Function(BuildContext)? deleteFunction;
+  Function()? popUp;
 
   ToDoTile({
     super.key,
@@ -15,6 +16,7 @@ class ToDoTile extends StatelessWidget {
     required this.taskCompleted,
     required this.onChanged,
     required this.deleteFunction,
+    required this.popUp,
 
   });
 
@@ -39,35 +41,43 @@ class ToDoTile extends StatelessWidget {
           ],
 
         ),
-        child: Container(
-          padding: EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Colors.yellow,
-            borderRadius: BorderRadius.circular(12),
+        child: GestureDetector(
+          onTap: popUp,
+          child: Container(
+
+            padding: EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: Colors.yellow,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                //checkbox
+                Checkbox(
+                  value: taskCompleted,
+                  onChanged: onChanged,
+                  activeColor: Colors.black,
+
+                ),
+
+                //taskname
+                SizedBox(
+                  width: 210, // uh... so I didn't know the width, but this worked so...
+                  child: Text(
+                    taskName,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 24,
+                      decoration: taskCompleted ? TextDecoration.lineThrough : TextDecoration.none,
+
+                  ),
+
+                  ),
+                ),
+              ],
+            ),
+
           ),
-          child: Row(
-            children: [
-              //checkbox
-              Checkbox(
-                value: taskCompleted,
-                onChanged: onChanged,
-                activeColor: Colors.black,
-        
-              ),
-        
-              //taskname
-              Text(
-                taskName,
-                style: TextStyle(
-                  fontSize: 24,
-                  decoration: taskCompleted ? TextDecoration.lineThrough : TextDecoration.none,
-        
-              ),
-        
-              ),
-            ],
-          ),
-        
         ),
       ),
     );
