@@ -6,6 +6,7 @@ class ToDoTile extends StatelessWidget {
 
   final String taskName;
   final bool taskCompleted;
+  final Color? color;
   Function (bool?)? onChanged;
   Function(BuildContext)? deleteFunction;
   Function()? popUp;
@@ -17,6 +18,7 @@ class ToDoTile extends StatelessWidget {
     required this.onChanged,
     required this.deleteFunction,
     required this.popUp,
+    required this.color
 
   });
 
@@ -47,7 +49,7 @@ class ToDoTile extends StatelessWidget {
 
             padding: EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: Colors.yellow,
+              color: color,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(

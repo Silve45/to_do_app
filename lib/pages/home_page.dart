@@ -108,20 +108,47 @@ class _HomePageState extends State<HomePage> {
 
       ),
 
-      body: ListView.builder(
-        itemCount: db.toDoList.length,
-        itemBuilder: (context, index) {
-          return ToDoTile(
-            taskName: db.toDoList[index][0],
-            taskCompleted: db.toDoList[index][1],
-            onChanged: (value) => checkBoxChanged(value, index),
-            deleteFunction: (context) => deleteTask(index),
-            popUp: () => showTask(db.toDoList[index][0])//TaskPopUp(neededText: db.toDoList[index][0])
+      body: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.transparent,
 
-          );
+
+        ),
+        child: ReorderableListView.builder(
+          itemCount: db.toDoList.length,
+
+
+          itemBuilder: (context, index) {
+            final evenItemColor = Colors.yellow;
+            final oddItemColor = Colors.yellow[600];
+
+
+            return ToDoTile(
+              key: ValueKey(index),// okay this might work?
+
+              taskName: db.toDoList[index][0],
+              taskCompleted: db.toDoList[index][1],
+              onChanged: (value) => checkBoxChanged(value, index),
+              deleteFunction: (context) => deleteTask(index),
+              popUp: () => showTask(db.toDoList[index][0]),
+              color: index.isOdd ? oddItemColor : evenItemColor,
+
+            );
+
+          }, onReorder: (int oldIndex, int newIndex) {
+            setState(() {
+              if (newIndex > oldIndex) newIndex--;
+              final item = db.toDoList.removeAt(oldIndex);
+              db.toDoList.insert(newIndex, item);
+
+              db.updateDatabase();
+              print(db.toDoList);
+            });
+
 
         },
 
+        ),
       ),
 
     );
